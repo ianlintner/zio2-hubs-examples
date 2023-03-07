@@ -1,5 +1,5 @@
 # ZIO2 Hubs Examples
-Somewhat practical examples of ZIO2 Hubs with log output to illustrate different properties.
+Somewhat practical concurrent examples of ZIO2 Hubs with log output to illustrate different properties.
 
 * Streaming Hubs
 * Bounded Hub

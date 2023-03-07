@@ -9,6 +9,7 @@ object SlidingHub extends ZIOAppDefault {
   override val bootstrap: ZLayer[ZIOAppArgs, Any, Any] = Runtime.removeDefaultLoggers >>> SLF4J.slf4j
 
   override def run: ZIO[Environment with ZIOAppArgs with Scope, Any, Any] = for {
+    /** The behavior expected is the hub will fill up and start dropping the oldest messages. */
     hub <- Hub.sliding[Take[Nothing, String]](1)
     _ <- {
       for {
@@ -20,7 +21,8 @@ object SlidingHub extends ZIOAppDefault {
         _ <- ZIO.logInfo(s"< message published: $msg")
       } yield ()
     }.schedule(Schedule.spaced(1.seconds)).forkDaemon
-    consumers <- hubConsumers(hub, 1, 2)
+    // We should see consumers not outputting some of the oldest messages when full.
+    _ <- hubConsumers(hub, 1, delay=2).forkDaemon
     _ <- ZIO.never
   } yield ()
 }
