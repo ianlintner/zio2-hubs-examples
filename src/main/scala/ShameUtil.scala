@@ -20,8 +20,7 @@ object ShameUtil {
       }
       .orDie
 
-  /**
-   * Gets ZStream Based Hub Consumer
+  /** Gets ZStream Based Hub Consumer
    * @param id string id for logging.
    * @param hub the hub to consume.
    * @return ZIO Long
